@@ -1,0 +1,22 @@
+.applied-count{
+    background-color: #ffa96a;
+    border-radius: 50%;
+    padding: 10px;
+}
+.job-list tr th{
+  background-color: #0917c8c7;
+  color: #fff;
+  font-size: 14px;
+}
+.job-list tr td{
+    font-size: 13px;
+    padding: 15px;
+  }
+  .status-edit{
+    color: #fe1b1b;
+    font-size: 16px;
+    padding-left: 10px;
+  }
+  .popup-status{
+    padding: 25px;
+  }

@@ -1,0 +1,91 @@
+<div class="container mt-4">
+    <div class="row col-12">
+        <h3 class="text-center mb-4">
+            @if (id =='0') {
+            Add Job Application
+            }@else{
+            Update Job Application
+            }
+        </h3>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary mb-3 view-button" (click)="backPage()"><i
+                        class="fa fa-backward" aria-hidden="true"></i>
+                    Back</button>
+            </div>
+        </div>
+        <div class="row col-12">
+            <form (submit)="id =='0' ? onSubmitSave():onSubmitUpdate()" [formGroup]="jobForm">
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Company Name</mat-label>
+                            <input matInput placeholder="Company Name" formControlName="companyName">
+                        </mat-form-field>
+                        @if (jobForm.get('companyName')?.invalid &&
+                        (jobForm.get('companyName')?.dirty || jobForm.get('companyName')?.touched)) {
+                        <p class="error-text text-danger">Company Name is mandatory!</p>
+                        }
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Position</mat-label>
+                            <input matInput placeholder="Position" formControlName="position">
+                        </mat-form-field>
+                        @if (jobForm.get('position')?.invalid &&
+                        (jobForm.get('position')?.dirty || jobForm.get('position')?.touched)) {
+                        <p class="error-text text-danger">Position is mandatory!</p>
+                        }
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status" panelClass="custom-panel-sec-questions">
+                                @for (data of statusList; track data) {
+                                <mat-option [value]="data.value">{{data.value}}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        @if (jobForm.get('status')?.invalid &&
+                        (jobForm.get('status')?.dirty || jobForm.get('status')?.touched)) {
+                        <p class="error-text text-danger">Status is mandatory!</p>
+                        }
+                    </div>
+                    <div class="row">
+
+                        <div class="col-6">
+                            <button type="button" class="btn btn-secondary mb-3 view-button" (click)="clearAll()">
+                                Clear</button>
+                        </div>
+                        <div class="col-6 text-end">
+                            @if (id =='0') {
+                            <button type="submit" class="btn btn-primary edit-button">Save 
+                                @if (saveClick ==true) {
+                                <i class="fa fa-spinner fa-spin" title="Edit" aria-hidden="true"></i>
+                                }</button>
+                            }@else{
+                            <button type="submit" class="btn btn-primary edit-button">Update
+                                @if (updateClick ==true) {
+                                    <i class="fa fa-spinner fa-spin" title="Edit" aria-hidden="true"></i>
+                                    }
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </form>
+
+        </div>
+    </div>
+</div>

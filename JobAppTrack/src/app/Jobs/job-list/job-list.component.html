@@ -1,0 +1,90 @@
+<div class="container mt-4">
+  <div class="row col-12">
+    <h3 class="text-center mb-4">Job Application List</h3>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary mb-3 add-button" (click)="addNew()"><i class="fa fa-plus"
+            aria-hidden="true"></i>
+          Add New</button>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover job-list">
+        <thead>
+          <tr>
+            <th scope="col">Sl.No</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date</th>
+            <th scope="col">Applied Count</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(item of appList; track item.id; let i=$index)
+          {
+          <tr>
+            <td scope="row">{{ (pageNumber * pageLength) +i + 1 }}</td>
+            <td>{{ item.companyName }}</td>
+            <td>{{ item.position }}</td>
+            <td>{{ (item.description.length>10)? (item.description | slice:0:10)+'...':(item.description ) }}</td>
+            <td>{{ item.createdOn | date:'dd/MM/yyyy' }}</td>
+            <td class="text-center"><span class="applied-count">10</span></td>
+            <td>{{ item.status }}
+              <i class="fa fa-pencil-square-o click status-edit" title="Edit" (click)="statusPopup(item.id,item.status)"
+                aria-hidden="true"></i>
+            </td>
+            <td>
+              <button type="button" class="btn btn-primary edit-button" (click)="edit(item.id)">
+                <i class="fa fa-pencil-square-o click" title="Edit" aria-hidden="true"></i>
+                Edit</button>
+              <button type="button" class="btn btn-primary view-button  ms-3" (click)="view(item.id)">
+                <i class="fa fa-eye click" title="View" aria-hidden="true"></i>
+                View</button>
+
+            </td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+    <mat-paginator [length]="itemCount" [pageSize]="pageLength" [pageSizeOptions]="[5, 10, 25, 100]" (page)="handlePageEvent($event)" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
+<ng-template #callAPIDialog>
+  <div class="popup-status">
+    <h4 matDialogTitle>Status Update</h4>
+    <mat-dialog-actions>
+      <form (submit)="updateStatus()" [formGroup]="statusForm">
+
+        <div class="row">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              @for (data of statusList; track data) {
+              <mat-option [value]="data.value">{{data.value}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          @if (statusForm.get('status')?.invalid &&
+          (statusForm.get('status')?.dirty || statusForm.get('status')?.touched)) {
+          <p class="error-text text-danger">Status Name is mandatory!</p>
+          }
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button type="button" class="btn btn-primary view-button" mat-button (click)="closePopup()">Close</button>
+          </div>
+          <div class="col-6 text-end">
+            <button type="submit" class="btn btn-primary edit-button" mat-button>Update</button>
+          </div>
+        </div>
+
+      </form>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
